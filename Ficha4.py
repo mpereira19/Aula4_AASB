@@ -8,4 +8,13 @@ def complemento_inverso(seq):
     '''
     
     inverso = seq[::-1]
+ 
     
+ 
+def transcricao(seq):
+        '''
+    
+    
+        '''
+        
+        
