@@ -8,7 +8,7 @@ def troca (seq):
 
     Returns
     -------
-    comp
+    comp : str
     '''
     pares_bases = {'A':'T', 'C':'G', 'T':'A', 'G':'C'}
     comp =''.join(pares_bases[n] for n in (seq))
@@ -42,12 +42,10 @@ def transcricao(seq):
     ----------
     seq : str
     seq1 : str
-    rna : str
     
-
     Returns
     -------
-    rna
+    rna : str
 
     '''
     seq=seq.upper()
@@ -72,13 +70,12 @@ def traducao(seq):
     Parameters
     ----------
     seq : str
-    amino : str
     gencode : dict
     codao : str
 
     Returns
     -------
-    amino
+    amino : str
 
     '''
     gencode = {
@@ -135,8 +132,43 @@ def valida(seq):
  
 ======= 
 def contar_bases(seq):
+    '''
+    Função que introduzida uma sequência devolve o número de bases dessa sequência.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    nbases : int
+
+    '''
     nbases={}
     for i in seq:
         i = i.upper()
         nbases[i]= nbases.get(i,0) + 1
     return nbases
+
+
+def reading_frames(seq):
+    '''
+    Função que dada uma sequência devolve uma lista com todas as reading frames.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    lst_read_frame : list
+
+    '''
+    seq=seq.upper()
+    lst_read_frame=[]
+    lst_read_frame.append(seq)
+    lst_read_frame.append(seq[1::])
+    lst_read_frame.append(seq[2::])
+    return lst_read_frame
+
+
