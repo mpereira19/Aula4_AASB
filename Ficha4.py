@@ -1,27 +1,3 @@
-def ler_seq(FileHandle):
-    '''
-    Parameters
-    ----------
-    FileHandle : str
-        O user introduz a localização do ficheiro.
-
-    Returns
-    -------
-    seq1 : str
-        Devolve a sequência que está presente no ficheiro.
-    '''
-    with open(FileHandle) as a:
-        linhas = [k.strip() for k in a]   
-    linhas=[k for k in linhas if len(k)> 0]
-    if linhas[0].startswith('>'):
-        header = linhas[0]
-        seq1= ''.join(linhas[1:])
-    else:
-        header=''
-        seq1= ''.join(linhas)
-    return seq1
-
-
 def troca (seq):
     '''
     Definição que introduzindo uma sequência devolve essa sequência com as bases trocadas pelo seu par.
@@ -46,17 +22,17 @@ def complemento_inverso(seq):
     Parameters
     ----------    
     seq: str
-    inverso : str
-    comple_inv : str
     
     Returns
     -------
-    comple_inv
+    comple_inv : str
     '''
+
     seq=seq.upper()
-    inverso = seq[::-1]
-    comple_inv=troca(inverso)
-    return comple_inv
+    if valida(seq)==True:
+        inverso = seq[::-1]
+        comple_inv=troca(inverso)
+        return comple_inv
     
 def transcricao(seq):
     '''
@@ -65,7 +41,6 @@ def transcricao(seq):
     Parameters
     ----------
     seq : str
-    seq1 : str
     
     Returns
     -------
@@ -73,15 +48,18 @@ def transcricao(seq):
 
     '''
     seq=seq.upper()
-    rna=''
-    seq1 = seq.rstrip()
-    for i in seq1:
-        if i=='T':
-            i='U'
-            rna += i
-        else:
-            rna += i
-    return rna
+    if valida(seq)==True:
+        rna=''
+        seq1 = seq.rstrip()
+        for i in seq1:
+            if i=='T':
+                i='U'
+                rna += i
+            else:
+                rna += i
+        return rna
+<<<<<<< HEAD
+
     
 
 def traducao(seq):
@@ -92,8 +70,6 @@ def traducao(seq):
     Parameters
     ----------
     seq : str
-    gencode : dict
-    codao : str
 
     Returns
     -------
@@ -111,31 +87,34 @@ def traducao(seq):
     'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_', 'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
     
     seq = seq.upper()
-    for i in range(0, len(seq), 3):
-        codao = seq[i : i + 3] 
-        if i==0:
-            amino=gencode[codao]
-        elif len(codao)==3:
-            amino += gencode[codao]
-        else:
-            pass
-    return amino
+    if valida(seq)==True:
+        for i in range(0, len(seq), 3):
+            codao = seq[i : i + 3] 
+            if i==0:
+                amino=gencode[codao]
+            elif len(codao)==3:
+                amino += gencode[codao]
+            else:
+                pass
+        return amino
 
-
+=======
+ 
+=======
 def valida(seq):
-    '''
+        '''
     Função que verifica se a sequência introduzida é uma sequência de DNA.
     
     Parameters
     ----------
     seq : str
-    base : str
 
     Returns
     -------
     True/False
     
-    '''
+        '''
+    seq = seq.upper()
     for i in range(len(seq)):
         base=seq[i]
         if base=='A' or base=='G' or base=='C' or base=='T':
@@ -145,26 +124,17 @@ def valida(seq):
             break
     return True
         
+<<<<<<< HEAD
+        
+>>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
+>>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
+>>>>>>> 529ae2ea7479a1ba1beaafd1ebd11f9d18e2255a
 
-def get_proteins(seq):    
-    a=seq.split()
-    for l in a:
-        g=len(l)
-        if g in seq:
-            seq[g]+=[l]
-        else:
-            seq[g]=[l]
-
-    b=sorted(seq, reverse=True)
-
-    for z in range(len(b)):
-        if len(seq[b[z]])==1:
-            y=seq[b[z]]
-    
-        else:
-            y=sorted(seq[b[z]])
-  
-
+ 
+=======
+=======
+ 
+======= 
 def contar_bases(seq):
     '''
     Função que introduzida uma sequência devolve o número de bases dessa sequência.
@@ -178,11 +148,12 @@ def contar_bases(seq):
     nbases : int
 
     '''
-    nbases={}
-    for i in seq:
-        i = i.upper()
-        nbases[i]= nbases.get(i,0) + 1
-    return nbases
+    if valida(seq)==True:
+        nbases={}
+        for i in seq:
+            i = i.upper()
+            nbases[i]= nbases.get(i,0) + 1
+        return nbases
 
 
 def reading_frames(seq):
@@ -199,10 +170,107 @@ def reading_frames(seq):
 
     '''
     seq=seq.upper()
-    lst_read_frame=[]
-    lst_read_frame.append(seq)
-    lst_read_frame.append(seq[1::])
-    lst_read_frame.append(seq[2::])
-    return lst_read_frame
+    if valida(seq)==True:
+        lst_read_frame=[]
+        lst_read_frame.append(seq)
+        lst_read_frame.append(seq[1::])
+        lst_read_frame.append(seq[2::])
+        return lst_read_frame
+
+def get_translated_frames(seq):
+    '''
+    Função que dada uma sequência devolve lista de todas as reading frames de uma sequência.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    lst_all_translations : list
+
+    '''
+    seq= seq.upper()
+    if valida(seq)==True:
+        seq1 = complemento_inverso(seq)
+        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+        lst_all_translations = []
+        for frame in lst_all_reading_frames:
+            lst_all_translations.append(traducao(frame))
+        return lst_all_translations
+
+def remove_repetidos(lista):
+    '''
+    Introduzida uma lista é devolvida a mesma lista organizada alfabeticamente e sem valores repetidos.
+
+    Parameters
+    ----------
+    lista : list
+
+    Returns
+    -------
+    l : list
+
+    '''
+    l = []
+    for i in lista:
+        if i not in l:
+            l.append(i)
+    l.sort()
+    return l
+
+def dic_protein(seq):
+    '''
+    Função que dada uma sequência devolve um dicionário com todas as proteínas presentesnessa sequência incluindo repetições.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    dic_all_proteins : dict
+
+    '''
+    import re
+    translation_lst = get_translated_frames(seq)
+    dic_all_proteins={}
+    for protein in translation_lst:
+        prot_found = re.findall('M.*?_',protein)
+        for prot in prot_found:
+            if len(prot) not in dic_all_proteins:
+                dic_all_proteins[len(prot)] = prot
+            else:
+                dic_all_proteins[len(prot)] += prot
+    return dic_all_proteins
 
 
+def get_proteins(seq):
+    '''
+    Função que dada uma sequênciadevolve numa lista todas as proteínas ordenadas por tamanho e por ordem alfabética para as do mesmo tamanho.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    lst_organized_proteins : list
+
+    '''
+    dictionary = dic_protein(seq)
+    keys = dictionary.keys()
+    keys = sorted (keys, reverse=True)
+    
+    lst_organized_proteins=[]
+    for chave in keys:
+        if len(dictionary[chave])==1:
+            lst_organized_proteins += dictionary[chave]
+        else:
+            dictionary[chave] = remove_repetidos(dictionary[chave])
+            dictionary[chave] = sorted (dictionary[chave])
+            lst_organized_proteins += dictionary[chave]
+    return lst_organized_proteins
+
+        
+>>>>>>> 791643f3628753e7a7e4562ddf97d98318a03673
