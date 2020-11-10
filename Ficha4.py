@@ -126,3 +126,22 @@ def transcricao(seq):
 >>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
 >>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
 >>>>>>> 529ae2ea7479a1ba1beaafd1ebd11f9d18e2255a
+
+def get_proteins(seq):    
+    a=seq.split()
+    for l in a:
+        g=len(l)
+        if g in seq:
+            seq[g]+=[l]
+        else:
+            seq[g]=[l]
+
+    b=sorted(seq, reverse=True)
+
+    for z in range(len(b)):
+        if len(seq[b[z]])==1:
+            y=seq[b[z]]
+    
+        else:
+            y=sorted(seq[b[z]])
+  
