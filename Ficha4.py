@@ -28,5 +28,18 @@ def complemento_inverso(seq):
     comple_inv
     '''
     inverso = seq[::-1]
+<<<<<<< HEAD
     comple_inv=troca(inverso)
     return comple_inv
+=======
+ 
+    
+ 
+def transcricao(seq):
+        '''
+    
+    
+        '''
+        
+        
+>>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
