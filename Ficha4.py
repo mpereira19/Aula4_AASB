@@ -131,8 +131,12 @@ def valida(seq):
             break
     return True
         
-        
->>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
->>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
->>>>>>> 529ae2ea7479a1ba1beaafd1ebd11f9d18e2255a
->>>>>>> 51ec095b4e699306b298a5ad37a974d5015b462e
+=======
+ 
+======= 
+def contar_bases(seq):
+    nbases={}
+    for i in seq:
+        i = i.upper()
+        nbases[i]= nbases.get(i,0) + 1
+    return nbases
