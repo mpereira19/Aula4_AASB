@@ -1,3 +1,27 @@
+def ler_seq(FileHandle):
+    '''
+    Parameters
+    ----------
+    FileHandle : str
+        O user introduz a localização do ficheiro.
+
+    Returns
+    -------
+    seq1 : str
+        Devolve a sequência que está presente no ficheiro.
+    '''
+    with open(FileHandle) as a:
+        linhas = [k.strip() for k in a]   
+    linhas=[k for k in linhas if len(k)> 0]
+    if linhas[0].startswith('>'):
+        header = linhas[0]
+        seq1= ''.join(linhas[1:])
+    else:
+        header=''
+        seq1= ''.join(linhas)
+    return seq1
+
+
 def troca (seq):
     '''
     Definição que introduzindo uma sequência devolve essa sequência com as bases trocadas pelo seu par.
@@ -58,8 +82,6 @@ def transcricao(seq):
         else:
             rna += i
     return rna
-<<<<<<< HEAD
-
     
 
 def traducao(seq):
@@ -99,12 +121,7 @@ def traducao(seq):
             pass
     return amino
 
-  
 
-
-=======
- 
-=======
 def valida(seq):
         '''
     Função que verifica se a sequência introduzida é uma sequência de DNA.
@@ -128,11 +145,6 @@ def valida(seq):
             break
     return True
         
-<<<<<<< HEAD
-        
->>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
->>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
->>>>>>> 529ae2ea7479a1ba1beaafd1ebd11f9d18e2255a
 
 def get_proteins(seq):    
     a=seq.split()
@@ -152,10 +164,7 @@ def get_proteins(seq):
         else:
             y=sorted(seq[b[z]])
   
-=======
-=======
- 
-======= 
+
 def contar_bases(seq):
     '''
     Função que introduzida uma sequência devolve o número de bases dessa sequência.
@@ -197,4 +206,3 @@ def reading_frames(seq):
     return lst_read_frame
 
 
->>>>>>> 791643f3628753e7a7e4562ddf97d98318a03673
