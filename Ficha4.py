@@ -61,14 +61,7 @@ def complemento_inverso(seq):
     
     Var:
         seq: str
-        rna: str
-        
-    Parameters
-    -------------
-        seq
-    -------------
-    Retuns
-        rna
+        rna: str  
 '''
 def transcricao(seq):
 <<<<<<< HEAD
@@ -83,26 +76,11 @@ def transcricao(seq):
     return rna
  
 =======
-def valida(seq):
-    '''
-    Definição que verifica se o input é uma sequência de DNA
-
-    Parameters
-    ----------
-    seq : str
-
-    Returns
-    -------
-    True/False
-
-    '''
-    for i in range(len(seq)):
-        base=seq[i]
-        if base=='A' or base=='G' or base=='C' or base=='T':
-            pass
-        else:
-            return False
-            break
-    return True
+        '''
+    
+    
+        '''
+        
+        
 >>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
 >>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
