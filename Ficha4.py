@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 gencode = {
     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
     'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
@@ -16,17 +17,42 @@ gencode = {
     'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
     'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
 
+=======
+def troca (seq):
+    '''
+    Definição que introduzindo uma sequência devolve essa sequência com as bases trocadas pelo seu par.
+
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    comp.
+    '''
+    pares_bases = {'A':'T', 'C':'G', 'T':'A', 'G':'C'}
+    comp =''.join(pares_bases[n] for n in (seq))
+    return comp
+        
+>>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
 
 def complemento_inverso(seq):
-    
     ''' 
-    Definição que introduzindo uma sequência devolve o seu complemento inverso
+    Definição que introduzindo uma sequência devolve o seu complemento inverso.
+
+    Parameters
+    ----------    
+    seq: str
     
-    Var:
-        seq: int
+    Returns
+    -------
+    comple_inv
     '''
-    
     inverso = seq[::-1]
+<<<<<<< HEAD
+    comple_inv=troca(inverso)
+    return comple_inv
+=======
  
 
   
@@ -38,6 +64,7 @@ def complemento_inverso(seq):
         rna: str  
 '''
 def transcricao(seq):
+<<<<<<< HEAD
     rna=''
     seq1 = seq.rstrip()
     for i in seq1:
@@ -48,3 +75,12 @@ def transcricao(seq):
             rna += i
     return rna
  
+=======
+        '''
+    
+    
+        '''
+        
+        
+>>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
+>>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
