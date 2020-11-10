@@ -123,7 +123,7 @@ def traducao(seq):
 
 
 def valida(seq):
-        '''
+    '''
     Função que verifica se a sequência introduzida é uma sequência de DNA.
     
     Parameters
@@ -135,7 +135,7 @@ def valida(seq):
     -------
     True/False
     
-        '''
+    '''
     for i in range(len(seq)):
         base=seq[i]
         if base=='A' or base=='G' or base=='C' or base=='T':
