@@ -117,10 +117,27 @@ def transcricao(seq):
     return rna
  
 =======
+def valida(seq):
         '''
+    Definição que verifica se o input é uma sequência de DNA
     
+    Parameters
+    ----------
+    seq : str
+
+    Returns
+    -------
+    True/False
     
         '''
+    for i in range(len(seq)):
+        base=seq[i]
+        if base=='A' or base=='G' or base=='C' or base=='T':
+            pass
+        else:
+            return False
+            break
+    return True
         
         
 >>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
