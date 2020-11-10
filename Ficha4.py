@@ -110,11 +110,12 @@ def traducao(seq):
 =======
 def valida(seq):
         '''
-    Definição que verifica se o input é uma sequência de DNA
+    Função que verifica se a sequência introduzida é uma sequência de DNA.
     
     Parameters
     ----------
     seq : str
+    base : str
 
     Returns
     -------
