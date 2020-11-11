@@ -58,14 +58,16 @@ class testficha4(unittest.TestCase):
         
         result = Ficha4.get_proteins('ATGAATTAA')
         self.assertEqual(result, ['MN_'], 'Teste 1')
-        # result1 = Ficha4.get_proteins('ATGCAT')
-        # self.assertEqual(result1, ['MH'], 'Teste 2')
-        # result1 = Ficha4.get_proteins('ATGAATTAAATGCAT')
-        # self.assertEqual(result1, ['MN_', 'MH'])
+        result1 = Ficha4.get_proteins('ATGCAT')
+        self.assertEqual(result1, ['MH'], 'Teste 2')
+        result1 = Ficha4.get_proteins('ATGAATTAAATGCAT')
+        self.assertEqual(result1, ['MN_', 'MH'])
         result = Ficha4. traducao('ATGACCGTAA')
         self.assertEqual(result, ['MTV'], 'Teste 3')
-        # result = Ficha4. traducao('ATGACCGTAA')
-        # self.assertEqual(result, 'MTV', 'Teste 4')
+        result = Ficha4. traducao('ATGACCGTAA')
+        self.assertEqual(result, 'MTV', 'Teste 4')
+        result = Ficha4. traducao('ATGCATCATTGAATGCGTCGT')
+        self.assertEqual(result, ['MHH_', 'MRR'], 'Teste 5')
     
     def test_contar_bases(self):
         
