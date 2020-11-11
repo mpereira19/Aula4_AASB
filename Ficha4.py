@@ -61,9 +61,6 @@ def troca (seq):
     return comp
         
 
-
-
-
 def complemento_inverso(seq):
     ''' 
     Definição que introduzida uma sequência devolve o seu complemento inverso.
@@ -74,14 +71,16 @@ def complemento_inverso(seq):
     
     Returns
     -------
-    comple_inv : str
+    comple_inv : str or ValueError
     '''
 
     seq=seq.upper()
     if valida(seq)==True:
         inverso = seq[::-1]
         comple_inv=troca(inverso)
-        return comple_inv
+    else:
+        comple_inv = ValueError
+    return comple_inv
     
 def transcricao(seq):
     '''
@@ -93,21 +92,15 @@ def transcricao(seq):
     
     Returns
     -------
-    rna : str
+    rna : str or ValueError
 
     '''
     seq=seq.upper()
     if valida(seq)==True:
-        rna=''
-        seq1 = seq.rstrip()
-        for i in seq1:
-            if i=='T':
-                i='U'
-                rna += i
-            else:
-                rna += i
-        return rna
-    
+        rna = seq.replace('T', 'U')
+    else:
+        rna = ValueError
+    return rna
 
 def traducao(seq):
 
@@ -120,7 +113,7 @@ def traducao(seq):
 
     Returns
     -------
-    amino : str
+    amino : str or ValueError
 
     '''
     gencode = {
@@ -143,8 +136,9 @@ def traducao(seq):
                 amino += gencode[codao]
             else:
                 pass
-        return amino
-
+    else:
+        amino = ValueError
+    return amino
 
 def valida(seq):
     '''
@@ -168,7 +162,7 @@ def valida(seq):
             return False
             break
     return True
-        
+    
 
 def contar_bases(seq):
     '''
@@ -180,16 +174,17 @@ def contar_bases(seq):
 
     Returns
     -------
-    nbases : int
+    nbases : int or ValueError
 
     '''
     if valida(seq)==True:
-        nbases={}
         for i in seq:
+            nbases={}
             i = i.upper()
             nbases[i]= nbases.get(i,0) + 1
-        return nbases
-
+    else: 
+        nbases = ValueError
+    return nbases
 
 def reading_frames(seq):
     '''
@@ -201,83 +196,18 @@ def reading_frames(seq):
 
     Returns
     -------
-    lst_read_frame : list
+    lst_read_frame : list or ValueError
 
     '''
     seq=seq.upper()
     if valida(seq)==True:
         lst_read_frame=[]
         lst_read_frame.append(seq)
-        lst_read_frame.append(seq[1::])
-        lst_read_frame.append(seq[2::])
-        return lst_read_frame
-
-def get_translated_frames(seq):
-    '''
-    Função que dada uma sequência devolve lista de todas as reading frames de uma sequência.
-
-    Parameters
-    ----------
-    seq : str
-
-    Returns
-    -------
-    lst_all_translations : list
-
-    '''
-    seq= seq.upper()
-    if valida(seq)==True:
-        seq1 = complemento_inverso(seq)
-        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
-        lst_all_translations = []
-        for frame in lst_all_reading_frames:
-            lst_all_translations.append(traducao(frame))
-        return lst_all_translations
-
-def remove_repetidos(lista):
-    '''
-    Introduzida uma lista é devolvida a mesma lista organizada alfabeticamente e sem valores repetidos.
-
-    Parameters
-    ----------
-    lista : list
-
-    Returns
-    -------
-    l : list
-
-    '''
-    l = []
-    for i in lista:
-        if i not in l:
-            l.append(i)
-    l.sort()
-    return l
-
-def dic_protein(seq):
-    '''
-    Função que dada uma sequência devolve um dicionário com todas as proteínas presentesnessa sequência incluindo repetições.
-
-    Parameters
-    ----------
-    seq : str
-
-    Returns
-    -------
-    dic_all_proteins : dict
-
-    '''
-    import re
-    translation_lst = get_translated_frames(seq)
-    dic_all_proteins={}
-    for protein in translation_lst:
-        prot_found = re.findall('M.*?_',protein)
-        for prot in prot_found:
-            if len(prot) not in dic_all_proteins:
-                dic_all_proteins[len(prot)] = prot
-            else:
-                dic_all_proteins[len(prot)] += prot
-    return dic_all_proteins
+        lst_read_frame.append(seq[1:])
+        lst_read_frame.append(seq[2:])
+    else:
+        lst_read_frame = ValueError
+    return lst_read_frame
 
 
 def get_proteins(seq):
@@ -290,20 +220,18 @@ def get_proteins(seq):
 
     Returns
     -------
-    lst_organized_proteins : list
+    result : list or ValueError
 
     '''
-    dictionary = dic_protein(seq)
-    keys = dictionary.keys()
-    keys = sorted (keys, reverse=True)
-    
-    lst_organized_proteins=[]
-    for chave in keys:
-        if len(dictionary[chave])==1:
-            lst_organized_proteins += dictionary[chave]
-        else:
-            dictionary[chave] = remove_repetidos(dictionary[chave])
-            dictionary[chave] = sorted (dictionary[chave])
-            lst_organized_proteins += dictionary[chave]
-    return lst_organized_proteins
 
+    import re
+    seq= seq.upper()
+    if valida(seq)==True:
+        seq1 = complemento_inverso(seq)
+        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+        translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
+        lista=[re.findall('M.*?_',orf) for orf in translation_lst]
+        result = sorted({p for lp in lista for p in lp}, key = lambda x: (-len(x), x))
+    else:
+        result = ValueError
+    return result
