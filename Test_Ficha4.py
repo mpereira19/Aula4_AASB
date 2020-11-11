@@ -56,17 +56,14 @@ class testficha4(unittest.TestCase):
     def test_get_proteins(self):
         
         
-<<<<<<< HEAD
         result = Ficha4.get_proteins('ATGAATTAA')
         self.assertEqual(result, ['MN_'], 'Teste 1')
         result1 = Ficha4.get_proteins('ATGCAT')
         self.assertEqual(result1, ['MH'], 'Teste 2')
-=======
         # result = Ficha4.get_proteins('ATGAATTAA')
         # self.assertEqual(result, ['MN_'], 'Teste 1')
         # result1 = Ficha4.get_proteins('ATGCAT')
         # self.assertEqual(result1, ['MH'], 'Teste 2')
->>>>>>> 7b7059d15ac3b9db55fc673486e0417086371f61
         result1 = Ficha4.get_proteins('ATGAATTAAATGCAT')
         self.assertEqual(result1, ['MN_', 'MH'])
         result = Ficha4. traducao('ATGACCGTAA')
