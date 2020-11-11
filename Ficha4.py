@@ -214,7 +214,6 @@ def get_proteins(seq):
         seq1 = complemento_inverso(seq)
         lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
         translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
-<<<<<<< HEAD
         
         # Não faz listas com a seqs
         
@@ -227,10 +226,8 @@ def get_proteins(seq):
             lista3= lista + lista2
             print(lista3)
             result = sorted([x for lx in lista3 for x in lx], key = lambda y: (-len(y), y))
-=======
         lista = [re.findall('M[A-Z]*_',orf) for orf in translation_lst]
         result = sorted({p for lp in lista for p in lp}, key = lambda x: (-len(x), x))
->>>>>>> 7b7059d15ac3b9db55fc673486e0417086371f61
     else:
         result = ValueError
     return result
