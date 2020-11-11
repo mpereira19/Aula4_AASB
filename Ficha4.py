@@ -104,8 +104,6 @@ def transcricao(seq):
             else:
                 rna += i
         return rna
-<<<<<<< HEAD
-
     
 
 def traducao(seq):
@@ -144,11 +142,9 @@ def traducao(seq):
                 pass
         return amino
 
-=======
- 
-=======
+
 def valida(seq):
-        '''
+    '''
     Função que verifica se a sequência introduzida é uma sequência de DNA.
     
     Parameters
@@ -159,7 +155,7 @@ def valida(seq):
     -------
     True/False
     
-        '''
+    '''
     seq = seq.upper()
     for i in range(len(seq)):
         base=seq[i]
@@ -170,17 +166,7 @@ def valida(seq):
             break
     return True
         
-<<<<<<< HEAD
-        
->>>>>>> 4eaecc565f676f8095790ffd207becd35dee78c4
->>>>>>> faadbed02923efd01ba597da08773ee4ebc57f73
->>>>>>> 529ae2ea7479a1ba1beaafd1ebd11f9d18e2255a
 
- 
-=======
-=======
- 
-======= 
 def contar_bases(seq):
     '''
     Função que introduzida uma sequência devolve o número de bases dessa sequência.
@@ -318,5 +304,3 @@ def get_proteins(seq):
             lst_organized_proteins += dictionary[chave]
     return lst_organized_proteins
 
-        
->>>>>>> 791643f3628753e7a7e4562ddf97d98318a03673
