@@ -43,23 +43,7 @@ def ler_Fasta_seq(FileHandle):
         seq1= ''.join(linhas[1:])
     return seq1
         
-        
-def troca (seq):
-    '''
-    Definição que introduzindo uma sequência devolve essa sequência com as bases trocadas pelo seu par.
 
-    Parameters
-    ----------
-    seq : str
-
-    Returns
-    -------
-    comp : str
-    '''
-    pares_bases = {'A':'T', 'C':'G', 'T':'A', 'G':'C'}
-    comp =''.join(pares_bases[n] for n in (seq))
-    return comp
-        
 
 def complemento_inverso(seq):
     ''' 
@@ -76,8 +60,7 @@ def complemento_inverso(seq):
 
     seq=seq.upper()
     if valida(seq)==True:
-        inverso = seq[::-1]
-        comple_inv=troca(inverso)
+        comple_inv= seq[::-1].lower().replace('a','T').replace('t','A').replace('g','C').replace('c','G')
     else:
         comple_inv = ValueError
     return comple_inv
