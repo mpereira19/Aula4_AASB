@@ -178,10 +178,11 @@ def contar_bases(seq):
 
     '''
     if valida(seq)==True:
-        for i in seq:
-            nbases={}
-            i = i.upper()
-            nbases[i]= nbases.get(i,0) + 1
+        nbases={}
+        seq= seq.strip()
+        for base in seq:
+            base = base.upper()
+            nbases[base]= nbases.get(base, 0) + 1
     else: 
         nbases = ValueError
     return nbases
