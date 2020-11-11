@@ -61,6 +61,9 @@ def troca (seq):
     return comp
         
 
+
+
+
 def complemento_inverso(seq):
     ''' 
     Definição que introduzida uma sequência devolve o seu complemento inverso.
