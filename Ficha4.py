@@ -137,15 +137,94 @@ def valida(seq):
     
     '''
     seq = seq.upper()
-    for i in range(len(seq)):
-        base=seq[i]
-        if base=='A' or base=='G' or base=='C' or base=='T':
-            pass
-        else:
+    if determina_amino(seq)!=True and determina_rna(seq)!=True and determina_amino(seq)!=True:
+        return False
+    else:
+        return True
+
+def determina_dna(seq):
+    '''
+    Função que dada uma sequência determina se é uma sequência de dna ou não
+
+    Parameters
+    ----------
+    seq : str
+            sequência de dna
+
+    Returns
+    -------
+    bool
+            se seq é cadeia de dna retorna True senão retorna False
+
+    '''
+    seq=seq.upper()
+    x = seq.strip()
+    for i in x:
+        if i!='A' and i!='T' and i!='C' and i!='G':
             return False
             break
+        else:
+            pass
     return True
-    
+
+def determina_rna(seq):
+    '''
+    Função que determina se a cadeia introduzida é ou não uma cadeia de rna.
+
+    Parameters
+    ----------
+    seq : str
+        cadeia de rna
+
+    Returns
+    -------
+    bool
+        True or False
+
+    '''
+    seq = seq.upper()
+    x = seq.strip()
+    for i in x:
+        if i!='A' and i!='T' and i!='G' and i!='C':
+            return False
+            break
+        else:
+            pass
+    return True
+
+def determina_amino(seq):
+    '''
+    Função que determina se a sequência introduzida é ou não uma sequência de aminoácidos.
+
+    Parameters
+    ----------
+    seq : str
+        sequência de aminoácidos
+
+    Returns
+    -------
+    bool
+        True or False
+
+    '''
+    gencode = {
+    'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M', 'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
+    'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K', 'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',
+    'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L', 'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
+    'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q', 'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
+    'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V', 'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
+    'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E', 'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
+    'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S', 'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
+    'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_', 'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
+    seq = seq.upper()
+    x = seq.strip()
+    for i in x:
+        if i not in gencode.values():
+            return False
+            break
+        else:
+            pass
+    return True
 
 def contar_bases(seq):
     '''
@@ -211,23 +290,31 @@ def get_proteins(seq):
     import re
     seq= seq.upper()
     if valida(seq)==True:
-        seq1 = complemento_inverso(seq)
-        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
-        translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
+        if determina_dna(seq)==True:
+            seq1 = complemento_inverso(seq)
+            lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+            translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
+            seq1 = complemento_inverso(seq)
+            lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+            translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
         
         # Não faz listas com a seqs
         
-        lista=[re.findall('M.*?_',orf) for orf in translation_lst]
-        lista1=[re.findall('M.*',orf) for orf in translation_lst]
-        lista2=[re.findall('_.*', orf) for orf in translation_lst]
-        if len(lista2)>0: 
-            result = sorted([p for lp in lista for p in lp], key = lambda x: (-len(x), x))
-        else:
-            lista3= lista + lista2
-            print(lista3)
-            result = sorted([x for lx in lista3 for x in lx], key = lambda y: (-len(y), y))
+            # lista=[re.findall('M.*?_',orf) for orf in translation_lst]
+        # lista1=[re.findall('M.*',orf) for orf in translation_lst]
+        # lista2=[re.findall('_.*', orf) for orf in translation_lst]
+        # if len(lista2)>0: 
+        #     result = sorted([p for lp in lista for p in lp], key = lambda x: (-len(x), x))
+        # else:
+        #     lista3= lista + lista2
+        #     print(lista3)
+            # result = sorted([x for lx in lista3 for x in lx], key = lambda y: (-len(y), y))
         lista = [re.findall('M[A-Z]*_',orf) for orf in translation_lst]
         result = sorted({p for lp in lista for p in lp}, key = lambda x: (-len(x), x))
+        elif determina_rna(seq)==True:
+            kdjfhgojdhf
+        elif determina_amino(seq)=='True':
+            sodfjhishgifdgihsgfdhisg
+        return result
     else:
-        result = ValueError
-    return result
+        raise TypeError('Sequência inválida')
