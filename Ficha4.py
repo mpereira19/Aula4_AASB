@@ -1,47 +1,50 @@
+fich_vaz = "Ficheiro vazio"
+
 def ler_seq(FileHandle):
-    '''
-    Função que introduzida uma diretoria devolve a sequência presente no ficheiro.
-
+    """ Funcao que devolve a sequencia contida numa linha do ficheiro
     Parameters
     ----------
-    FileHandle : str
-
+    FileHandle : _io.TextIOWrapper
+        Um ficheiro .txt aberto que contém uma sequência de DNA por linha
     Returns
     -------
-    seq1 : str
+    
+    seq : str
+        Sequência de DNA que está contida numa linha   
+    """
+    
+    seq = FileHandle.readline()
+    assert seq != '', fich_vaz
+    seq= seq.upper()
+    return seq
 
-    '''
-    with open(FileHandle) as a:
-        linhas = [k.strip() for k in a]   
-    linhas=[k for k in linhas if len(k)> 0]
-    if linhas[0].startswith('>'):
-        header = linhas[0]
-        seq1= ''.join(linhas[1:])
-    else:
-        header=''
-        seq1= ''.join(linhas)
-    return seq1
-
-def ler_Fasta_seq(FileHandle):
-    '''
-    Função que introduzida a diretoria do ficheiro FASTA devolve a sequência presente no ficheiro.
-
+def ler_FASTA_seq(file):
+    """Função que devolve a primeira sequência contida num ficheiro FASTA
+    Se o ficheiro apresentar mais do que uma sequência, devolve apenas a primeira
+    
     Parameters
     ----------
-    FileHandle : str
-
+    FileHandle : _io.TextIOWrapper
+        Um ficheiro FASTA
+        
     Returns
     -------
-    seq1 : str
-
-    '''
-    with open(FileHandle) as a:
-        linhas = [k.strip() for k in a]   
-    linhas=[k for k in linhas if len(k)> 0]
-    if linhas[0].startswith('>'):
-        header = linhas[0]
-        seq1= ''.join(linhas[1:])
-    return seq1
+    seq : str 
+        Primeira sequência contida num ficheiro FASTA, sem o cabeçalho
+    """
+    import re
+    linhas = file.readlines()
+    assert linhas != [], fich_vaz
+    seq = ''
+    a = ''.join(linhas)
+    header = re.findall('>.+[\n]',a) # para obter a lista dos cabeçalhos
+    for l in linhas:
+        if l == header[0]:
+            continue
+        elif l not in header:
+            seq+=l.replace('\n','')
+        elif l in header: break
+    return seq
         
 
 
@@ -59,11 +62,10 @@ def complemento_inverso(seq):
     '''
 
     seq=seq.upper()
-    if valida(seq)==True:
+    if determina_dna(seq)==True:
         comple_inv= seq[::-1].lower().replace('a','T').replace('t','A').replace('g','C').replace('c','G')
-    else:
-        comple_inv = ValueError
-    return comple_inv
+        return comple_inv
+    else: raise TypeError('Sequência inválida')
     
 def transcricao(seq):
     '''
@@ -79,11 +81,10 @@ def transcricao(seq):
 
     '''
     seq=seq.upper()
-    if valida(seq)==True:
+    if determina_dna(seq)==True:
         rna = seq.replace('T', 'U')
-    else:
-        rna = ValueError
-    return rna
+        return rna
+    else: raise TypeError('Sequência inválida')
 
 def traducao(seq):
 
@@ -110,18 +111,18 @@ def traducao(seq):
     'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_', 'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
     
     seq = seq.upper()
-    if valida(seq)==True:
+    if determina_rna(seq)==True:
+        seq = seq.replace('U','T')
+    if determina_dna(seq)==True:
         for i in range(0, len(seq), 3):
             codao = seq[i : i + 3] 
             if i==0:
                 amino=gencode[codao]
             elif len(codao)==3:
                 amino += gencode[codao]
-            else:
-                pass
-    else:
-        amino = ValueError
-    return amino
+            else: pass
+        return amino
+    else: raise TypeError('Sequência inválida')
 
 def valida(seq):
     '''
@@ -139,8 +140,7 @@ def valida(seq):
     seq = seq.upper()
     if determina_amino(seq)!=True and determina_rna(seq)!=True and determina_amino(seq)!=True:
         return False
-    else:
-        return True
+    else: return True
 
 def determina_dna(seq):
     '''
@@ -163,8 +163,7 @@ def determina_dna(seq):
         if i!='A' and i!='T' and i!='C' and i!='G':
             return False
             break
-        else:
-            pass
+        else: pass
     return True
 
 def determina_rna(seq):
@@ -185,11 +184,10 @@ def determina_rna(seq):
     seq = seq.upper()
     x = seq.strip()
     for i in x:
-        if i!='A' and i!='T' and i!='G' and i!='C':
+        if i!='A' and i!='U' and i!='G' and i!='C':
             return False
             break
-        else:
-            pass
+        else: pass
     return True
 
 def determina_amino(seq):
@@ -222,8 +220,7 @@ def determina_amino(seq):
         if i not in gencode.values():
             return False
             break
-        else:
-            pass
+        else: pass
     return True
 
 def contar_bases(seq):
@@ -246,8 +243,7 @@ def contar_bases(seq):
             base = base.upper()
             nbases[base]= nbases.get(base, 0) + 1
     else: 
-        nbases = ValueError
-    return nbases
+        raise TypeError('Sequência inválida')
 
 def reading_frames(seq):
     '''
@@ -272,10 +268,39 @@ def reading_frames(seq):
         lst_read_frame = ValueError
     return lst_read_frame
 
+def complemento_proteina_dna(seq):
+    '''
+    Função que dada uma sequência de dna devolve uma lista de todas as traduções.
+
+    Parameters
+    ----------
+    seq : str
+        Cadeia de DNA.
+
+    Returns
+    -------
+    lista : list
+        Lista da tradução da sequência de DNA.
+
+    '''
+    if determina_dna(seq)==True:
+        import re
+        seq1 = complemento_inverso(seq)
+        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+        translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
+        seq1 = complemento_inverso(seq)
+        lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
+        translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
+        lista = [re.findall('M[A-Z]*_',orf) for orf in translation_lst]
+        return lista
+    else:
+        raise TypeError('Sequência inválida')   
+
+
 
 def get_proteins(seq):
     '''
-    Função que dada uma sequênciadevolve numa lista todas as proteínas ordenadas por tamanho e por ordem alfabética para as do mesmo tamanho.
+    Função que dada uma sequência devolve numa lista todas as proteínas ordenadas por tamanho e por ordem alfabética para as do mesmo tamanho.
 
     Parameters
     ----------
@@ -291,30 +316,16 @@ def get_proteins(seq):
     seq= seq.upper()
     if valida(seq)==True:
         if determina_dna(seq)==True:
-            seq1 = complemento_inverso(seq)
-            lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
-            translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
-            seq1 = complemento_inverso(seq)
-            lst_all_reading_frames = reading_frames(seq) + reading_frames(seq1)
-            translation_lst = [traducao(frames) for frames in lst_all_reading_frames]
-        
-        # Não faz listas com a seqs
-        
-            # lista=[re.findall('M.*?_',orf) for orf in translation_lst]
-        # lista1=[re.findall('M.*',orf) for orf in translation_lst]
-        # lista2=[re.findall('_.*', orf) for orf in translation_lst]
-        # if len(lista2)>0: 
-        #     result = sorted([p for lp in lista for p in lp], key = lambda x: (-len(x), x))
-        # else:
-        #     lista3= lista + lista2
-        #     print(lista3)
-            # result = sorted([x for lx in lista3 for x in lx], key = lambda y: (-len(y), y))
-        lista = [re.findall('M[A-Z]*_',orf) for orf in translation_lst]
-        result = sorted({p for lp in lista for p in lp}, key = lambda x: (-len(x), x))
+            lista = complemento_proteina_dna(seq)
+            result = sorted({p for lp in lista for p in lp}, key = lambda x: (-len(x), x))
         elif determina_rna(seq)==True:
-            kdjfhgojdhf
+            rna = seq.replace('U','T')
+            amino = traducao(rna)
+            lista = re.findall('M[A-Z]*_',amino)
+            result = sorted({p for p in lista}, key = lambda x: (-len(x), x))
         elif determina_amino(seq)=='True':
-            sodfjhishgifdgihsgfdhisg
+            lista = re.findall('M[A-Z]*_',seq)
+            result = sorted({p for p in lista}, key = lambda x: (-len(x), x))
         return result
     else:
         raise TypeError('Sequência inválida')
