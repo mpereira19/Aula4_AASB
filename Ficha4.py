@@ -37,7 +37,7 @@ def ler_FASTA_seq(file):
     assert linhas != [], fich_vaz
     seq = ''
     a = ''.join(linhas)
-    header = re.findall('>.+[\n]',a) # para obter a lista dos cabeçalhos
+    header = re.findall('>.+[\n]',a)
     for l in linhas:
         if l == header[0]:
             continue
@@ -65,7 +65,7 @@ def complemento_inverso(seq):
     if determina_dna(seq)==True:
         comple_inv= seq[::-1].lower().replace('a','T').replace('t','A').replace('g','C').replace('c','G')
         return comple_inv
-    else: raise TypeError('Sequência inválida')
+    else: raise TypeError
     
 def transcricao(seq):
     '''
@@ -122,7 +122,7 @@ def traducao(seq):
                 amino += gencode[codao]
             else: pass
         return amino
-    else: raise TypeError('Sequência inválida')
+    else: raise TypeError
 
 def valida(seq):
     '''
@@ -266,9 +266,9 @@ def reading_frames(seq):
         lst_read_frame.append(seq)
         lst_read_frame.append(seq[1:])
         lst_read_frame.append(seq[2:])
+        return lst_read_frame
     else:
-        lst_read_frame = ValueError
-    return lst_read_frame
+        raise TypeError
 
 def complemento_proteina_dna(seq):
     '''
