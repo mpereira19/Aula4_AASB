@@ -84,7 +84,7 @@ def transcricao(seq):
     if determina_dna(seq)==True:
         rna = seq.replace('T', 'U')
         return rna
-    else: raise TypeError('Sequência inválida')
+    else: raise TypeError
 
 def traducao(seq):
 
@@ -242,8 +242,10 @@ def contar_bases(seq):
         for base in seq:
             base = base.upper()
             nbases[base]= nbases.get(base, 0) + 1
+        return nbases
     else: 
-        raise TypeError('Sequência inválida')
+        raise TypeError
+    
 
 def reading_frames(seq):
     '''
@@ -294,7 +296,7 @@ def complemento_proteina_dna(seq):
         lista = [re.findall('M[A-Z]*_',orf) for orf in translation_lst]
         return lista
     else:
-        raise TypeError('Sequência inválida')   
+        raise TypeError   
 
 
 
@@ -328,4 +330,4 @@ def get_proteins(seq):
             result = sorted({p for p in lista}, key = lambda x: (-len(x), x))
         return result
     else:
-        raise TypeError('Sequência inválida')
+        raise TypeError
